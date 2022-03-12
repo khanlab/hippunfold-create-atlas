@@ -1,0 +1,8 @@
+in_hippunfold: /scratch/akhanf/3_processing/magdeburg_atlas/hippunfold_magdeburg
+
+
+manualsubfields: /scratch/akhanf/3_processing/magdeburg_atlas/train/train{subject}/seg_{hemi}.nii.gz
+
+
+subfield_label_list: magdeburg_labellist.txt
+maxprob_label_list: maxprob_labellist.txt
