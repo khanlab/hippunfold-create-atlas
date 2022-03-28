@@ -6,3 +6,5 @@ manualsubfields: /scratch/akhanf/3_processing/magdeburg_atlas/train/train{subjec
 
 subfield_label_list: magdeburg_labellist.txt
 maxprob_label_list: maxprob_labellist.txt
+
+ref_surf_unfold: /scratch/akhanf/3_processing/magdeburg_atlas/hippunfold/hippunfold/resources/unfold_template_hipp/tpl-avg_space-unfold_den-{density}_midthickness.surf.gii

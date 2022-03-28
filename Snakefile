@@ -209,3 +209,65 @@ rule create_maxprob:
         'wb_command -cifti-reduce {input.cifti} INDEXMAX {output.cifti_dscalar} && '
         'wb_command -cifti-label-import {output.cifti_dscalar} {input.label_list} {output.cifti_dlabel}'
 
+
+rule cifti_to_gifti:
+    """ to allow resampling to diff spaces """
+    input:
+        cifti_dlabel = bids(
+                den="{density}",
+                suffix="maxprob.dlabel.nii",
+                desc='manualsubfields',
+                space="{space}",
+                label="hipp",
+                subject='all')
+    output:
+        label_lh = bids(
+                den="{density}",
+                suffix="maxprob.label.gii",
+                desc='manualsubfields',
+                space="{space}",
+                label="hipp",
+                hemi='L',
+                subject='all'),
+        label_rh = bids(
+                den="{density}",
+                suffix="maxprob.label.gii",
+                desc='manualsubfields',
+                space="{space}",
+                label="hipp",
+                hemi='R',
+                subject='all'),
+    shell:
+        'wb_command -cifti-separate {input} COLUMN '
+        ' -label CORTEX_LEFT {output.label_lh} '
+        ' -label CORTEX_RIGHT {output.label_rh} '
+
+
+rule resample_to_unfoldiso:
+    input:
+        label = bids(
+                den="0p5mm",
+                suffix="maxprob.label.gii",
+                desc='manualsubfields',
+                space="{space}",
+                label="hipp",
+                hemi='{hemi}',
+                subject='all'),
+        current = config['ref_surf_unfold'].format(density='0p5mm'),
+        new = lambda wildcards: config['ref_surf_unfold'].format(density=wildcards.density),
+    params:
+        method = 'BARYCENTRIC'
+    output:
+        label = bids(
+                den="{density,unfoldiso}",
+                suffix="maxprob.label.gii",
+                desc='manualsubfields',
+                space="{space}",
+                label="hipp",
+                hemi='{hemi}',
+                subject='all'),
+    shell:
+        "wb_command -label-resample {input.label} {input.current} {input.new} {params.method} {output.label} -bypass-sphere-check"
+
+
+        
