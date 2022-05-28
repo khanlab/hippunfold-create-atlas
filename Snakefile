@@ -2,43 +2,68 @@ from snakebids import bids
 
 configfile: 'config.yml'
 
-subjects = [ f'{i:03d}' for i in range(35) ]
+subjects = config['subjects']
 
 rule all:
     input:
-        cifti = expand(bids(
-                        den="{density}",
-                        suffix="probseg.dscalar.nii",
-                        desc='manualsubfields',
-                        space="{space}",
-                        label="hipp",
-                        subject='all'),
-                    density='0p5mm',
-                    space='corobl')
- 
+         label = expand(bids(
+                den="{density}",
+                suffix="maxprob.label.gii",
+                desc='freesurfersubfields',
+                space="{space}",
+                label="hipp",
+                hemi='{hemi}',
+                subject='all'),
+                density='unfoldiso',
+                space='corobl',
+                hemi=['L','R'])
+
+hemi_lookup={'L': 'lh','R': 'rh'}
 
 
 rule import_subfields:
     input:
-        config["manualsubfields"],
+        lambda wildcards: config['fs_subfields'].format(subject=wildcards.subject, hemi=hemi_lookup[wildcards.hemi])
     output:
         bids(
-            desc='manualsubfields',
+            desc='freesurfersubfields',
             suffix="dseg.nii.gz",
             hemi='{hemi}',
             subject='{subject}'
         ),
-    group:
-        "subj"
+    shell: 
+        'mri_convert {input} {output}'
+
+
+rule convert_fs_xfm:
+    input:
+        config['fs_xfm_t1_t2']
+    output:        
+        t1_to_t2 = bids(
+            from_='T1w',
+            to_='T2w',
+            suffix="xfm.txt",
+            type_='itk',
+            subject='{subject}'
+        ),
+        t2_to_t1 = bids(
+            from_='T2w',
+            to_='T1w',
+            suffix="xfm.txt",
+            type_='itk',
+            subject='{subject}'
+        ),
+
     shell:
-        "cp {input} {output}"
+        'lta_convert --inlta {input} --outitk {output.t1_to_t2} && '
+        'lta_convert --inlta {input}  --outitk {output.t2_to_t1} --invert '
 
 
 #not needed if we just use surfaces in T2w space??
 rule warp_seg_to_corobl_crop:
     input:
         nii=rules.import_subfields.output,
-        xfm=bids(
+        xfm_t2_corobl=bids(
             root=config['in_hippunfold']+'/work',
             datatype="warps",
             subject='{subject}',
@@ -55,10 +80,19 @@ rule warp_seg_to_corobl_crop:
                 hemi='{hemi}',
                 space='corobl',
                 desc='preproc',
-                suffix='T2w.nii.gz')
+                suffix='T2w.nii.gz'),
+        xfm_t1_t2 = bids(
+            from_='T1w',
+            to_='T2w',
+            suffix="xfm.txt",
+            type_='itk',
+            subject='{subject}'
+        ),
+
+
     output:
         nii=bids(
-            desc='manualsubfields',
+            desc='freesurfersubfields',
             suffix="dseg.nii.gz",
             space='corobl',
             hemi='{hemi}',
@@ -67,7 +101,7 @@ rule warp_seg_to_corobl_crop:
         "subj"
     shell:
         "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS={threads} "
-        "antsApplyTransforms -d 3 --interpolation MultiLabel -i {input.nii} -o {output.nii} -r {input.ref}  -t {input.xfm}"
+        "antsApplyTransforms -d 3 --interpolation MultiLabel -i {input.nii} -o {output.nii} -r {input.ref}  -t {input.xfm_t2_corobl} {input.xfm_t1_t2}"
 
 
 #convert to workbench label volume (nifti with label info stored in header)
@@ -77,7 +111,7 @@ rule dseg_to_label_vol:
         label_list=config['subfield_label_list']
     output:
         nii=bids(
-            desc='manualsubfields',
+            desc='freesurfersubfields',
             suffix="dsegwb.nii.gz",
             space='{space}',
             hemi='{hemi}',
@@ -102,7 +136,7 @@ rule map_subfields_to_surf:
         label_gii=bids(
             den="{density}",
             suffix="subfields.label.gii",
-            desc='manualsubfields',
+            desc='freesurfersubfields',
             space="{space}",
             label="hipp",
             hemi="{hemi}",
@@ -115,7 +149,7 @@ rule create_cifti:
         left_label=bids(
             den="{density}",
             suffix="subfields.label.gii",
-            desc='manualsubfields',
+            desc='freesurfersubfields',
             space="{space}",
             label="hipp",
             hemi="L",
@@ -124,7 +158,7 @@ rule create_cifti:
         right_label=bids(
             den="{density}",
             suffix="subfields.label.gii",
-            desc='manualsubfields',
+            desc='freesurfersubfields',
             space="{space}",
             label="hipp",
             hemi="R",
@@ -134,7 +168,7 @@ rule create_cifti:
         cifti=bids(
             den="{density}",
             suffix="dseg.dlabel.nii",
-            desc='manualsubfields',
+            desc='freesurfersubfields',
             space="{space}",
             label="hipp",
             subject='{subject}'
@@ -151,7 +185,7 @@ rule merge_cifti:
         ciftis = expand(bids(
                 den="{density}",
                 suffix="dseg.dlabel.nii",
-                desc='manualsubfields',
+                desc='freesurfersubfields',
                 space="{space}",
                 label="hipp",
                 subject='{subject}'),
@@ -162,7 +196,7 @@ rule merge_cifti:
         cifti = bids(
                 den="{density}",
                 suffix="merged.dlabel.nii",
-                desc='manualsubfields',
+                desc='freesurfersubfields',
                 space="{space}",
                 label="hipp",
                 subject='all')
@@ -178,7 +212,7 @@ rule create_prob_label:
         cifti = bids(
                 den="{density}",
                 suffix="probseg.dscalar.nii",
-                desc='manualsubfields',
+                desc='freesurfersubfields',
                 space="{space}",
                 label="hipp",
                 subject='all')
@@ -193,14 +227,14 @@ rule create_maxprob:
         cifti_dscalar = temp(bids(
                 den="{density}",
                 suffix="maxprob.dscalar.nii",
-                desc='manualsubfields',
+                desc='freesurfersubfields',
                 space="{space}",
                 label="hipp",
                 subject='all')),
         cifti_dlabel = bids(
                 den="{density}",
                 suffix="maxprob.dlabel.nii",
-                desc='manualsubfields',
+                desc='freesurfersubfields',
                 space="{space}",
                 label="hipp",
                 subject='all')
@@ -216,7 +250,7 @@ rule cifti_to_gifti:
         cifti_dlabel = bids(
                 den="{density}",
                 suffix="maxprob.dlabel.nii",
-                desc='manualsubfields',
+                desc='freesurfersubfields',
                 space="{space}",
                 label="hipp",
                 subject='all')
@@ -224,7 +258,7 @@ rule cifti_to_gifti:
         label_lh = bids(
                 den="{density}",
                 suffix="maxprob.label.gii",
-                desc='manualsubfields',
+                desc='freesurfersubfields',
                 space="{space}",
                 label="hipp",
                 hemi='L',
@@ -232,7 +266,7 @@ rule cifti_to_gifti:
         label_rh = bids(
                 den="{density}",
                 suffix="maxprob.label.gii",
-                desc='manualsubfields',
+                desc='freesurfersubfields',
                 space="{space}",
                 label="hipp",
                 hemi='R',
@@ -248,7 +282,7 @@ rule resample_to_unfoldiso:
         label = bids(
                 den="0p5mm",
                 suffix="maxprob.label.gii",
-                desc='manualsubfields',
+                desc='freesurfersubfields',
                 space="{space}",
                 label="hipp",
                 hemi='{hemi}',
@@ -261,7 +295,7 @@ rule resample_to_unfoldiso:
         label = bids(
                 den="{density,unfoldiso}",
                 suffix="maxprob.label.gii",
-                desc='manualsubfields',
+                desc='freesurfersubfields',
                 space="{space}",
                 label="hipp",
                 hemi='{hemi}',

@@ -1,10 +1,14 @@
-in_hippunfold: /scratch/akhanf/3_processing/magdeburg_atlas/hippunfold_magdeburg
+in_hippunfold: /local/scratch/ds002168_hippunfold_magick_T2w
 
 
-manualsubfields: /scratch/akhanf/3_processing/magdeburg_atlas/train/train{subject}/seg_{hemi}.nii.gz
+fs_subfields: /local/scratch/ds002168_freesurfer/sub-{subject}/mri/{hemi}.hippoAmygLabels-T2.v21.FS60.mgz
+fs_xfm_t1_t2: /local/scratch/ds002168_freesurfer/sub-{subject}/mri/transforms/T1_to_T2.v21.lta
 
+subjects:
+  - 1425
 
 subfield_label_list: magdeburg_labellist.txt
 maxprob_label_list: maxprob_labellist.txt
 
-ref_surf_unfold: /scratch/akhanf/3_processing/magdeburg_atlas/hippunfold/hippunfold/resources/unfold_template_hipp/tpl-avg_space-unfold_den-{density}_midthickness.surf.gii
+
+ref_surf_unfold: /localscratch/hippunfold/hippunfold/resources/unfold_template_hipp/tpl-avg_space-unfold_den-{density}_midthickness.surf.gii
