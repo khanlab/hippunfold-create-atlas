@@ -1,11 +1,14 @@
-# create probabilistic subfield atlas from manual segmentations
+# create probabilistic subfield atlas from **freesurfer** segmentations
 
-This example uses the ASHS Magdeburg training data to generate a probabilistic segmentation.
+This uses Freesurfer segmentations to generate a probabilistic (and maxprob) hippunfold atlas
 
-You need to first run hippunfold on the training data to generate hippocampal surfaces, which will be used to sample the manual segmentations.
+Pre-requisites:
+ 0. bids dataset (e.g. ds002168 from openneuro) with T1w and hires T2w
+ 1. hippunfold run on this dataset
+ 2. freesurfer 7 `recon-all` run on this dataset
+ 3. freesurfer 7 `segmentHA_T2.sh` run on the T2s (e.g. `segmentHA_T2.sh sub-01 PATH_TO_T2 T2 0` )
 
-This workflow will transform the segmentations to corobl, sample the subfield labels, convert to cifti, generate a probablistic segmentation and a maximum-probability segmentation
 
-ASHS Magdeburg training data can be downloaded on NITRC as `IKND Magdeburg Young Adult 7T Atlas` here: https://www.nitrc.org/frs/?group_id=370
+This workflow will transform the freesurfer segmentations to corobl, sample the subfield labels, convert to cifti, generate a probablistic segmentation and a maximum-probability segmentation
 
 Note: resampling to unfoldiso space requires the latest dev version of connectome-workbench with the `-bypass-sphere-check` flag 

@@ -1,144 +1,129 @@
-201 alveus                                  
-255 204 153 0
-202 perforant_pathway                       
-255 128 128 0
-203 parasubiculum                           
-175 175 75  0
-204 presubiculum                            
-64  0   64  0
-205 subiculum                               
-0   0   255 0
-206 CA1                                     
-255 0   0   0
-207 CA2                                     
-128 128 255 0
-208 CA3                                     
-0   128 0   0
-209 CA4                                     
-196 160 128 0
-210 GC-DG                                   
-32  200 255 0
-211 HATA                                    
-128 255 128 0
-212 fimbria                                 
-204 153 204 0
-213 lateral_ventricle                       
-121 17  136 0
-214 molecular_layer_HP                      
-128 0   0   0
-215 hippocampal_fissure                     
-128 32  255 0
-216 entorhinal_cortex                       
-255 204 102 0
-217 molecular_layer_subiculum               
-128 128 128 0
-218 Amygdala                                
-104 255 255 0
-219 Cerebral_White_Matter                   
-0   226 0   0
-220 Cerebral_Cortex                         
-205 63  78  0
-221 Inf_Lat_Vent                            
-197 58  250 0
-222 Perirhinal                              
-33  150 250 0
-223 Cerebral_White_Matter_Edge              
-226 0   0   0
-224 Background                              
-100 100 100 0
-225 Ectorhinal                              
-197 150 250 0
-226 HP_tail                                 
-170 170 255 0
-227 Polymorphic-Layer                       
-128 255 128 0
-228 Intracellular-Space                     
-204 153 204 0
-
-231 HP_body                                 
-0 255 0 0
-232 HP_head                                 
-255 0 0 0
-
-233  presubiculum-head                            
-32  0   32  0
-234  presubiculum-body                            
-64  0   64  0
-235  subiculum-head                               
-0   0   175 0
-236  subiculum-body                               
-0   0   255 0
-237  CA1-head                                     
-175 75   75   0
-238  CA1-body                                     
-255 0   0   0
-239  CA3-head                                      
-0   80 0   0
-240  CA3-body                                      
-0   128 0   0
-241  CA4-head                                     
-120 90 50 0
-242  CA4-body                                     
-196 160 128 0
-243  GC-ML-DG-head                               
-75   125 175 0
-244  GC-ML-DG-body                                
-32  200 255 0
-245  molecular_layer_HP-head                      
-100 25   25   0
-246  molecular_layer_HP-body                      
-128 0   0   0
-
-
-7001  Lateral-nucleus                                   72  132 181 0
-7002  Basolateral-nucleus                               243 243 243 0
-7003  Basal-nucleus                                     207 63  79  0
-7004  Centromedial-nucleus                              121 20  135 0
-7005  Central-nucleus                                   197 60  248 0
-7006  Medial-nucleus                                    2   149 2   0
-7007  Cortical-nucleus                                  221 249 166 0
-7008  Accessory-Basal-nucleus                           232 146 35  0
-7009  Corticoamygdaloid-transitio                       20  60  120 0
-7010  Anterior-amygdaloid-area-AAA                      250 250 0   0
-7011  Fusion-amygdala-HP-FAH                            122 187 222 0
-7012  Hippocampal-amygdala-transition-HATA              237 12  177 0
-7013  Endopiriform-nucleus                              10  49  255 0
-7014  Lateral-nucleus-olfactory-tract                   205 184 144 0
-7015  Paralaminar-nucleus                               45  205 165 0
-7016  Intercalated-nucleus                              117 160 175 0
-7017  Prepiriform-cortex                                221 217 21  0
-7018  Periamygdaloid-cortex                             20  60  120 0
-7019  Envelope-Amygdala                                 141 21  100 0
-7020  Extranuclear-Amydala                              225 140 141 0
-
-
-
-
+alveus
+201 255 204 153 255
+perforant_pathway
+202 255 128 128 255
+parasubiculum
+203 175 175 75  255
+presubiculum
+204 64  0   64  255
+subiculum
+205 0   0   255 255
 CA1
-1 255 0 0 255
-CA2 
-2 0 255 0 255
-DG 
-3 0 0 255 255
+206 255 0   0   255
+CA2
+207 128 128 255 255
 CA3
-4 255 255 0 255
-Tail
-5 0 255 255 255
-Label_6
-6 255 0 255 255
-Label_7
-7 255 239 213 255
-Sub
-8 240 86 224 255
-ErC
-9 205 133 63 255
-A35
-10 102 205 170 255
-A36
-11 0 0 128 255
-PhC
-12 230 0 50 255
-Cysts
-13 55 160 230 255
-Label_17 255
-17 221 160 221 255
+208 0   128 0   255
+CA4
+209 196 160 128 255
+GC-DG
+210 32  200 255 255
+HATA
+211 128 255 128 255
+fimbria
+212 204 153 204 255
+lateral_ventricle
+213 121 17  136 255
+molecular_layer_HP
+214 128 0   0   255
+hippocampal_fissure
+215 128 32  255 255
+entorhinal_cortex
+216 255 204 102 255
+molecular_layer_subiculum
+217 128 128 128 255
+Amygdala
+218 104 255 255 255
+Cerebral_White_Matter
+219 0   226 0   255
+Cerebral_Cortex
+220 205 63  78  255
+Inf_Lat_Vent
+221 197 58  250 255
+Perirhinal
+222 33  150 250 255
+Cerebral_White_Matter_Edge
+223 226 0   0   255
+Background
+224 100 100 100 255
+Ectorhinal
+225 197 150 250 255
+HP_tail
+226 170 170 255 255
+Polymorphic-Layer
+227 128 255 128 255
+Intracellular-Space
+228 204 153 204 255
+HP_body
+231 0 255 0 255
+HP_head
+232 255 0 0 255
+
+presubiculum-head
+233 32  0   32  255
+presubiculum-body
+234 64  0   64  255
+subiculum-head
+235 0   0   175 255
+subiculum-body
+236 0   0   255 255
+CA1-head
+237 175 75   75   255
+CA1-body
+238 255 0   0   255
+CA3-head
+239 0   80 0   255
+CA3-body
+240 0   128 0   255
+CA4-head
+241 120 90 50 255
+CA4-body
+242 196 160 128 255
+GC-ML-DG-head
+243 75   125 175 255
+GC-ML-DG-body
+244 32  200 255 255
+molecular_layer_HP-head
+245 100 25   25   255
+molecular_layer_HP-body
+246 128 0   0   255
+Lateral-nucleus
+7001 72  132 181 255
+Basolateral-nucleus
+7002 243 243 243 255
+Basal-nucleus
+7003 207 63  79  255
+Centromedial-nucleus
+7004 121 20  135 255
+Central-nucleus
+7005 197 60  248 255
+Medial-nucleus
+7006 2   149 2   255
+Cortical-nucleus
+7007 221 249 166 255
+Accessory-Basal-nucleus
+7008 232 146 35  255
+Corticoamygdaloid-transitio
+7009 20  60  120 255
+Anterior-amygdaloid-area-AAA
+7010 250 250 0   255
+Fusion-amygdala-HP-FAH
+7011 122 187 222 255
+Hippocampal-amygdala-transition-HATA
+7012 237 12  177 255
+Endopiriform-nucleus
+7013 10  49  255 255
+Lateral-nucleus-olfactory-tract
+7014 205 184 144 255
+Paralaminar-nucleus
+7015 45  205 165 255
+Intercalated-nucleus
+7016 117 160 175 255
+Prepiriform-cortex
+7017 221 217 21  255
+Periamygdaloid-cortex
+7018 20  60  120 255
+Envelope-Amygdala
+7019 141 21  100 255
+Extranuclear-Amydala
+7020 225 140 141 255

@@ -2,6 +2,7 @@ from snakebids import bids
 
 configfile: 'config.yml'
 
+
 subjects = config['subjects']
 
 rule all:

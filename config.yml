@@ -1,5 +1,6 @@
 in_hippunfold: /local/scratch/ds002168_hippunfold_magick_T2w
 
+in_bids: /local/scratch/ds002168
 
 fs_subfields: /local/scratch/ds002168_freesurfer/sub-{subject}/mri/{hemi}.hippoAmygLabels-T2.v21.FS60.mgz
 fs_xfm_t1_t2: /local/scratch/ds002168_freesurfer/sub-{subject}/mri/transforms/T1_to_T2.v21.lta
@@ -7,7 +8,7 @@ fs_xfm_t1_t2: /local/scratch/ds002168_freesurfer/sub-{subject}/mri/transforms/T1
 subjects:
   - 1425
 
-subfield_label_list: magdeburg_labellist.txt
+subfield_label_list: freesurfer_labellist.txt
 maxprob_label_list: maxprob_labellist.txt
 
 
