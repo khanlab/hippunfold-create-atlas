@@ -17,7 +17,9 @@ rule all:
                 label="hipp",
                 hemi='{hemi}',
                 subject='all'),
-                hemi=['L','R'])
+                hemi=['L','R']),
+   
+
 
 hemi_lookup={'L': 'lh','R': 'rh'}
 
@@ -144,6 +146,9 @@ rule map_subfields_to_surf:
             subject='{subject}')
     shell:
         "wb_command -volume-label-to-surface-mapping {input.nii} {input.surf} {output.label_gii}"
+
+
+
 
 rule create_cifti:
     input:
@@ -320,11 +325,45 @@ rule gii_to_unfold_vol:
     output:
         unfold_vol = bids(
                 suffix="dseg.nii.gz",
-                desc='freesurfersubfields',
+                desc='freesurfersubfieldsnoremap',
                 space="unfold",
                 label="hipp",
                 hemi='{hemi}',
                 subject='all'),
     shell:
         "wb_command -label-to-volume-mapping {input.label_gii} {input.surf_gii} {input.ref_vol} {output.unfold_vol} -nearest-vertex 100"
-        
+       
+
+def get_mappings(wildcards, input):
+    df = pd.read_table(input.label_list,skiprows=range(0,200,2),delim_whitespace=True,header=None,names=['label','r','g','b','a'])
+    args='-replace'
+    for i,label in enumerate(df.label):
+        args = args + ' {in_label} {out_label}'.format(in_label=i+1,out_label=label)
+    return args 
+    
+    
+
+
+rule remap_labels:
+    input: 
+        unfold_vol = bids(
+                suffix="dseg.nii.gz",
+                desc='freesurfersubfieldsnoremap',
+                space="unfold",
+                label="hipp",
+                hemi='{hemi}',
+                subject='all'),
+        label_list=config['subfield_label_list']
+    params:
+        mappings = get_mappings
+    output: 
+        unfold_vol = bids(
+                suffix="dseg.nii.gz",
+                desc='freesurfersubfields',
+                space="unfold",
+                label="hipp",
+                hemi='{hemi}',
+                subject='all'),
+    shell:
+        'c3d {input.unfold_vol} {params.mappings} -o {output.unfold_vol}'
+
