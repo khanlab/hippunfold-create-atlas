@@ -1,15 +1,16 @@
-in_hippunfold: /local/scratch/ds002168_hippunfold_magick_T2w
+in_hippunfold: /home/ROBARTS/alik/graham/scratch/3_processing/ds002168_hippunfold
 
-in_bids: /local/scratch/ds002168
+participants_tsv: participants.tsv
 
-fs_subfields: /local/scratch/ds002168_freesurfer/sub-{subject}/mri/{hemi}.hippoAmygLabels-T2.v21.FS60.mgz
-fs_xfm_t1_t2: /local/scratch/ds002168_freesurfer/sub-{subject}/mri/transforms/T1_to_T2.v21.lta
-
-subjects:
-  - 1425
+fs_subfields: /home/ROBARTS/alik/graham/scratch/3_processing/ds002168_freesurfer/sub-{subject}/mri/{hemi}.hippoAmygLabels-T2.v21.mgz
+fs_xfm_t1_t2: /home/ROBARTS/alik/graham/scratch/3_processing/ds002168_freesurfer/sub-{subject}/mri/transforms/T1_to_T2.v21.lta
 
 subfield_label_list: freesurfer_labellist.txt
 maxprob_label_list: maxprob_labellist.txt
 
 
 ref_surf_unfold: /localscratch/hippunfold/hippunfold/resources/unfold_template_hipp/tpl-avg_space-unfold_den-{density}_midthickness.surf.gii
+
+ref_unfold_vol: /localscratch/hippunfold/hippunfold/resources/bigbrain/sub-bigbrain_hemi-{hemi}_label-hipp_desc-manualsubfields_dseg.nii.gz
+
+

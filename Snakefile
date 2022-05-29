@@ -1,22 +1,22 @@
 from snakebids import bids
+import pandas as pd
 
 configfile: 'config.yml'
 
+df = pd.read_table(config['participants_tsv'],sep='\t')
+subjects = [subj[4:] for subj in df.participant_id]
 
-subjects = config['subjects']
+
 
 rule all:
     input:
-         label = expand(bids(
-                den="{density}",
-                suffix="maxprob.label.gii",
+        unfold_vol = expand(bids(
+                suffix="dseg.nii.gz",
                 desc='freesurfersubfields',
-                space="{space}",
+                space="unfold",
                 label="hipp",
                 hemi='{hemi}',
                 subject='all'),
-                density='unfoldiso',
-                space='corobl',
                 hemi=['L','R'])
 
 hemi_lookup={'L': 'lh','R': 'rh'}
@@ -223,7 +223,7 @@ rule create_prob_label:
 rule create_maxprob:
     input: 
         cifti = rules.create_prob_label.output.cifti,
-        label_list=config['subfield_label_list']
+        label_list=config['maxprob_label_list']
     output:
         cifti_dscalar = temp(bids(
                 den="{density}",
@@ -305,4 +305,26 @@ rule resample_to_unfoldiso:
         "wb_command -label-resample {input.label} {input.current} {input.new} {params.method} {output.label} -bypass-sphere-check"
 
 
+rule gii_to_unfold_vol:
+    input:
+        label_gii = bids(
+                den="0p5mm",
+                suffix="maxprob.label.gii",
+                desc='freesurfersubfields',
+                space="corobl",
+                label="hipp",
+                hemi='{hemi}',
+                subject='all'),
+        surf_gii = config['ref_surf_unfold'].format(density='0p5mm'),
+        ref_vol = config['ref_unfold_vol']
+    output:
+        unfold_vol = bids(
+                suffix="dseg.nii.gz",
+                desc='freesurfersubfields',
+                space="unfold",
+                label="hipp",
+                hemi='{hemi}',
+                subject='all'),
+    shell:
+        "wb_command -label-to-volume-mapping {input.label_gii} {input.surf_gii} {input.ref_vol} {output.unfold_vol} -nearest-vertex 100"
         
