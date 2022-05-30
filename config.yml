@@ -2,7 +2,7 @@ in_hippunfold: /home/ROBARTS/alik/graham/scratch/3_processing/ds002168_hippunfol
 
 participants_tsv: participants.tsv
 
-fs_subfields: /home/ROBARTS/alik/graham/scratch/3_processing/ds002168_freesurfer/sub-{subject}/mri/{hemi}.hippoAmygLabels-T2.v21.mgz
+fs_subfields: /home/ROBARTS/alik/graham/scratch/3_processing/ds002168_freesurfer/sub-{subject}/mri/{hemi}.hippoAmygLabels-T2.v21.CA.mgz
 fs_xfm_t1_t2: /home/ROBARTS/alik/graham/scratch/3_processing/ds002168_freesurfer/sub-{subject}/mri/transforms/T1_to_T2.v21.lta
 
 subfield_label_list: freesurfer_labellist.txt
